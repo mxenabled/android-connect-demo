@@ -1,4 +1,4 @@
-# MXConnect Demo iOS App
+# MXConnect Demo Android App
 This is a simple application that shows how to get started with embedding Connect into an Android application.
 
 
@@ -10,7 +10,7 @@ This is a simple application that shows how to get started with embedding Connec
 5. Run the application.
 
 ### Getting the widget URL
-The most important thing to remember when implementing Connect in a WebView is that the widget talks to the iOS app through navigation events, *not* postMessages. When you embed Connect directly in a WebView, there are three [configuration options](https://docs.mx.com/api#request_a_connect_url) you'll need to set to make sure this communication happens properly:
+The most important thing to remember when implementing Connect in a WebView is that the widget talks to the Android app through navigation events, *not* postMessages. When you embed Connect directly in a WebView, there are three [configuration options](https://docs.mx.com/api#request_a_connect_url) you'll need to set to make sure this communication happens properly:
 - `is_mobile_webview: true`
 - `ui_message_webview_url_scheme: <your scheme>`
 - `ui_message_version: 4`
