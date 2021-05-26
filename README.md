@@ -1,12 +1,12 @@
 # MXConnect Demo Android App
-This is a simple application that shows how to get started with embedding Connect into an Android application.
+This is a simple application that shows how to get started with embedding Connect into an Android application. While the links below reference the MX Platform API, this code works with any of the APIs MX offers.
 
 
 ## How to download and use the demo app
 1. Clone the repo: `git clone git@github.com:mxenabled/android-connect-demo.git`.
 2. Open the project in Android Studio.
 3. [Get a widget URL.](https://docs.mx.com/api#request_a_connect_url)
-4. Copy the URL and paste it into the [`ConnectDemo.java->onCreate` method](https://github.com/mxenabled/android-connect-demo/blob/main/app/src/main/java/com/example/atriumconnectdemo/ConnectDemo.java#L35)
+4. Copy the URL and paste it into the [`ConnectDemo.java->widgetURL` property](https://github.com/mxenabled/android-connect-demo/blob/main/app/src/main/java/com/example/atriumconnectdemo/ConnectDemo.java#L19)
 5. Run the application.
 
 ### Getting the widget URL
@@ -21,7 +21,7 @@ When the widget is configured as above, it sends postMessages via navigation eve
 
 In the demo app, you will want to use `appscheme` as the `ui_message_webview_url_scheme`.
 
-It is *imperative* that your native application intercept *all* navigation events. In addition to the widget events, the widget also has links to bank and/or financial institution sites. You will want to intercept these and handle them accordingly. Failure to do so may result in your WebView being replaced by the link or URL event.
+It is *imperative* that your native application intercept *all* navigation events. In addition to the widget events, the widget also has links to bank and/or financial institution sites. You need to intercept these and send them to the user agent instead of overriding the WebView. Failure to do so may result in your WebView being replaced by the link or URL event.
 
 You can see an example of handing events in the [`MXWebViewClient.java->shouldOverrideUrlLoading()` method](https://github.com/mxenabled/android-connect-demo/blob/main/app/src/main/java/com/example/atriumconnectdemo/MXWebViewClient.java#L30-L60).
 
@@ -29,7 +29,7 @@ You can see an example of handing events in the [`MXWebViewClient.java->shouldOv
 ### Handling OAuth
 OAuth in mobile WebViews *requires* your app to facilitate the redirect out to the OAuth provider and to accept redirects back to your app.
 
-See the [`MXWebViewClient.java->shouldOverrideUrlLoading()` method](https://github.com/mxenabled/android-connect-demo/blob/main/app/src/main/java/com/example/atriumconnectdemo/MXWebViewClient.java#L46-L52) for an example of how to get the user to the provider.
+See the [`MXWebViewClient.java->shouldOverrideUrlLoading()` method](https://github.com/mxenabled/android-connect-demo/blob/main/app/src/main/java/com/example/atriumconnectdemo/MXWebViewClient.java#L57-L97) for an example of how to get the user to the provider.
 
 See the [`AndroidManifst.xml`](https://github.com/mxenabled/android-connect-demo/blob/main/app/src/main/AndroidManifest.xml#L21-L30) file for an example of how to set up the URL types your app must respond to when MX links back to you.
 
