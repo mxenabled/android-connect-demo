@@ -3,6 +3,9 @@ package com.example.atriumconnectdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.net.Uri;
@@ -13,9 +16,33 @@ import org.json.JSONObject;
 
 public class MXWebViewClient extends WebViewClient {
     private Activity activity;
+    protected String widgetURL;
 
-    public MXWebViewClient(Activity mainActivity) {
+    public MXWebViewClient(Activity mainActivity, String widgetURL) {
         activity = mainActivity;
+        widgetURL = widgetURL;
+    }
+
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed(); // Ignore SSL certificate errors
+    }
+
+    @Override
+    public void onReceivedError (WebView view,
+                                 WebResourceRequest request,
+                                 WebResourceError error) {
+        Log.d("onRecevedError: Request", String.valueOf(request.getUrl()));
+        Log.d("onRecevedError: Error", error.getDescription().toString());
+    }
+
+    @Override
+    public void onReceivedHttpError (WebView view,
+                                     WebResourceRequest request,
+                                     WebResourceResponse errorResponse) {
+        Log.d("HTTP ERROR: response", errorResponse.getReasonPhrase());
+        Log.d("HTTP ERROR: response status", String.valueOf(errorResponse.getStatusCode()));
+        Log.d("onReceivedHTTPError: request", String.valueOf((request.getUrl().toString())));
     }
 
     /**
@@ -53,6 +80,17 @@ public class MXWebViewClient extends WebViewClient {
             } catch (Exception err) {
                 Log.e("MX:Error with OAuth URL", err.getMessage());
             }
+            return true;
+        }
+
+        /**
+         * Open the URL in a different activity if it isn't a message from MX or the widget URL
+         * being loaded.
+         */
+        if (url != widgetURL) {
+            Uri urlToOpen = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, urlToOpen);
+            activity.startActivity(intent);
             return true;
         }
 

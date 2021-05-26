@@ -9,6 +9,14 @@ import android.webkit.WebView;
 
 public class ConnectDemo extends AppCompatActivity {
     WebView webView;
+    /*
+      In a 'real' application, you would want to get your one time use URL from atrium, then
+      load it into the webview. For demo purposes, we simply hardcode it here.
+
+      See the documentation for more details.
+      https://atrium.mx.com/docs#get-a-url
+     */
+    String widgetURL = "widget url here";
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -17,7 +25,7 @@ public class ConnectDemo extends AppCompatActivity {
         setContentView(R.layout.activity_connect_demo);
 
         // set up the webview client for url overrides and settings.
-        MXWebViewClient mxWebViewClient = new MXWebViewClient(this);
+        MXWebViewClient mxWebViewClient = new MXWebViewClient(this, widgetURL);
         WebView webView = (WebView) findViewById(R.id.connectWebView);
         WebSettings settings = webView.getSettings();
 
@@ -25,13 +33,6 @@ public class ConnectDemo extends AppCompatActivity {
         settings.setJavaScriptEnabled(true);
 
 
-        /*
-          In a 'real' application, you would want to get your one time use URL from atrium, then
-          load it into the webview. For demo purposes, we simply hardcode it here.
-
-          See the documentation for more details.
-          https://atrium.mx.com/docs#get-a-url
-         */
-        webView.loadUrl("Connect url goes here.");
+        webView.loadUrl(widgetURL);
     }
 }
