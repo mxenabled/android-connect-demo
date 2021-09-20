@@ -23,6 +23,10 @@ public class MXWebViewClient extends WebViewClient {
         widgetURL = widgetURL;
     }
 
+    /**
+     * NOTE: you'll want to properly handle SSL certificates in your app in production. We simply
+     * omit it here for ease in development. Either remove or modify this to your needs.
+     */
     @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
         handler.proceed(); // Ignore SSL certificate errors
